@@ -69,18 +69,12 @@ class MainServer {
                     clientMap.put(readKey, new ClientSession(readKey, acceptedChannel));
 
                     System.out.println("New client ip=" + acceptedChannel.getRemoteAddress() + ", total clients=" + MainServer.clientMap.size());
-                    // Thread.sleep(5000);
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
 
                 if (key.isReadable()) {
 
-                    System.out.println("Key is readable");
+
                     ClientSession sesh = clientMap.get(key);
 
                     if (sesh == null)
@@ -92,30 +86,8 @@ class MainServer {
 
                 }
 
-                /////////////////////////////////////////////////////////////////
-              /*  else if (key.isWritable()) {
-
-                    ClientSession sesh = clientMap.get(key);
-
-
-
-                    System.out.println("Begin writing...");
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    toWrite = serverChannel.accept();
-
-                    if ( toWrite == null)
-                        continue;
-
-                    toWrite.configureBlocking(false);
-
-                    if (sesh == null)
-                        continue;
-
-                    sesh.write(buf);
-                }*/
-////////////////////////////////////////////////////////////////////////////////////////
             } catch (Throwable t) {
-                //t.printStackTrace();
+
             }
         }
 
