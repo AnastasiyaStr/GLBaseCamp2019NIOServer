@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -24,11 +26,12 @@ public class Client {
     static volatile String client;
     static volatile int count = 1;
     static volatile int phase = 1;
-    public static void main(String[] args) throws IOException, InterruptedException {
+    static volatile Map<String,String> map;
+    public static void main(String[] args) throws IOException {
         SocketAddress address = new InetSocketAddress("localhost",1337);
         SocketChannel
                 socketChannel = SocketChannel.open(address);
-
+        map = new HashMap<>();
         new Thread(()->{
 
             do {
@@ -106,18 +109,31 @@ public class Client {
             while (phase>1);
 
             do {
-
                 byte[] bytess = new byte[100];
                 ByteBuffer buf = ByteBuffer.wrap(bytess);
+                if(map.get(client)!=null) {
+                    sbf = map.get(client);
 
-                try {
-                    socketChannel.read(buf);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-                sbf=new String(buf.array());
+                else {
 
 
+                    try {
+                        socketChannel.read(buf);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    sbf = new String(buf.array());
+                    String str = sbf;
+                    if (str != null &&
+                            !str.contains("PONG") && !str.split(":")[3].trim().equals(client)) {
+                        map.put(sbf.split(":")[3], str);
+
+                        System.out.println("SBF SPLIT: " + str.split(":")[3]);
+
+                        sbf = null;
+                    }
+                }
             } while (true);
         }).start();
 

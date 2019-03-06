@@ -89,7 +89,7 @@ class ClientSession {
 
 
             String my_id=getKeysByValue(MainServer.map,chan.getRemoteAddress().toString()).iterator().next();
-            MainServer.messageBox.put(id_s,mes_whole1);
+            MainServer.messageBox.put(id_s,mes_whole1+":"+my_id);
             if(MainServer.messageBox.get(my_id)!=null)
             {pong =MainServer.messageBox.get(my_id);
                 MainServer.messageBox.remove(my_id);

@@ -39,7 +39,6 @@ class MainServer {
         return ""+ (++count);
     }
 
-
     static HashMap<SelectionKey, ClientSession> clientMap = new HashMap<SelectionKey, ClientSession>();
     static HashMap<String, String> map = new HashMap<>();
     static HashMap<String, String> messageBox = new HashMap<>();
@@ -81,9 +80,7 @@ class MainServer {
                         continue;
 
                     sesh.read();
-
                     selector.selectedKeys().clear();
-
                 }
 
             } catch (Throwable t) {
